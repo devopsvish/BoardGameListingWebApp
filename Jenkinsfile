@@ -19,7 +19,6 @@ pipeline {
         
         stage('Maven Package') {
             steps {
-                sh 'git checkout sonar-analysis'
                 sh 'mvn clean package'
             }
         }
