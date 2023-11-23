@@ -2,38 +2,40 @@ pipeline {
     agent any
     
     tools {
-        jdk 'jdk11'
-        maven 'maven3'
+        jdk 'JDK11'
+        maven 'Maven3'
+    }
+    
+    environment {
+        SCANNER_HOME = tool 'Vish-Sonar-Scanner'
     }
 
     stages {
         stage('Git Checkout') {
             steps {
-                git 'https://github.com/jaiswaladi2468/BoardgameListingWebApp.git'
+                git 'https://github.com/devopsvish/BoardGameListingWebApp.git'
             }
         }
         
-        stage('Compile') {
+        stage('Maven Package') {
             steps {
-               sh "mvn compile"
+                sh 'git checkout sonar-analysis'
+                sh 'mvn clean package'
             }
         }
         
-        stage('Test') {
+        stage('Sonar Analysis') {
             steps {
-                sh "mvn test"
-            }
-        }
-        
-        stage('Package') {
-            steps {
-                sh "mvn package"
-            }
-        }
-        
-        stage('Install') {
-            steps {
-                sh "mvn install"
+                withSonarQubeEnv('Vish-Sonar-Server') {
+                    sh '''
+                        $SCANNER_HOME/bin/sonar-scanner \
+                        -Dsonar.projectName=BoardGameList \
+                        -Dsonar.projectKey=BoardGameList \
+                        -Dsonar.sources=src \
+                        -Dsonar.branch.name=sonar-analysis \
+                        -Dsonar.java.binaries=target/classes
+                    '''
+                }
             }
         }
     }
