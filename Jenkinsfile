@@ -32,7 +32,7 @@ pipeline {
                         -Dsonar.projectName=BoardGameList \
                         -Dsonar.projectKey=BoardGameList \
                         -Dsonar.sources=src \
-                        -Dsonar.branch.name=sonar-analysis \
+                        // -Dsonar.branch.name=sonar-analysis \ // Specific branch analysis is not supported in community version of Sonar
                         -Dsonar.java.binaries=target/classes
                     '''
                 }
