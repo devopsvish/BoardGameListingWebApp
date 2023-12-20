@@ -75,6 +75,11 @@
 			<artifactId>jacoco-maven-plugin</artifactId>
 			<version>${jacoco.version}</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.seleniumhq.selenium</groupId>
+		    <artifactId>selenium-remote-driver</artifactId>
+		    <version>4.16.1</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
